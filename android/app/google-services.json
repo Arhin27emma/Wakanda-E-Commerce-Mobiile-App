@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "200473317031",
+    "project_id": "wakandashop-32f8d",
+    "storage_bucket": "wakandashop-32f8d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:200473317031:android:b8cdc027f57e690b03d582",
+        "android_client_info": {
+          "package_name": "com.example.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "200473317031-1nuhtr81n1u9l0el21s6dbtoid5h0ckj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.app",
+            "certificate_hash": "347674336ee506e9c5e6775bfdc2fc7114ad4e52"
+          }
+        },
+        {
+          "client_id": "200473317031-rgcqdcp29j5hlc62un4h1fpisl96joke.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmYRD7VaSOGjwckHwEMNhpLnZVG9Rw_n8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "200473317031-rgcqdcp29j5hlc62un4h1fpisl96joke.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "200473317031-po9iahosv8auq5u3hr8km9tie928j6at.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
