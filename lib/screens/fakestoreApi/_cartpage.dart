@@ -71,6 +71,7 @@ class _CartPageState extends State<CartPage> {
                           int maxLengths = 15;
                           String title = longtitle.length > maxLengths ? "${longtitle.substring(0, maxLengths)}..." : longtitle;
                           return SwipeActionCell(
+                            backgroundColor: Colors.transparent,
                             key: ObjectKey(FirebaseAuth.instance.currentUser!.email), 
                             trailingActions: [
                               SwipeAction(
@@ -94,6 +95,7 @@ class _CartPageState extends State<CartPage> {
                                 }
                             )],
                             child: cartlist(
+                              id: documentSnapshot["id"], 
                               title: title, 
                               price: documentSnapshot["price"], 
                               image: documentSnapshot["image"]

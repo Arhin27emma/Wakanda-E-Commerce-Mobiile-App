@@ -2,18 +2,67 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class cartlist extends StatelessWidget {
+class cartlist extends StatefulWidget {
   const cartlist({
     super.key,
+    required this.id,
     required this.title,
     required this.price,
     required this.image,
   });
 
+  final int id;
   final String title;
   final double price;
   final String image;
+
+  @override
+  State<cartlist> createState() => _cartlistState();
+}
+
+class _cartlistState extends State<cartlist> {
+
+  int value = 1;
+
+  @override
+  void initState() {
+    super.initState();
+    updateCounterPrice();
+  }
+
+  void valueIncrement(){
+    setState(() {
+      value++;
+      updateCounterPrice();
+    });
+  }
+  void valueDecreement(){
+    setState(() {
+      if (value > 1) {
+        value--;
+        updateCounterPrice();
+      }
+    });
+  }
+ 
+  final CollectionReference _counterCollection =
+  FirebaseFirestore.instance.collection('carts');
+
+  Future updateCounterPrice() async{
+    try{
+      await _counterCollection.doc(FirebaseAuth.instance.currentUser!.email).collection("items").doc(widget.id.toString()).update({
+      'id':widget.id,
+      'counterValue':value,
+    });
+    } catch(e){
+      print('Error adding data: $e');
+    }
+  }
+  
+
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +82,7 @@ class cartlist extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Image.network(
-                    image,
+                    widget.image,
                     width: 120,
                     height: 120,
                     
@@ -44,7 +93,7 @@ class cartlist extends StatelessWidget {
                   //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      title,
+                      widget.title,
                       style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -54,7 +103,7 @@ class cartlist extends StatelessWidget {
                       height: 30,
                     ),
                     Text(
-                      "\$$price",
+                      "\$${widget.price}",
                       style: const TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.bold,
@@ -81,7 +130,9 @@ class cartlist extends StatelessWidget {
                                       blurRadius: 5),
                                 ]),
                             child: IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                valueIncrement();
+                              },
                               icon: const Icon(CupertinoIcons.add, size: 16),
                             ),
                           ),
@@ -90,9 +141,9 @@ class cartlist extends StatelessWidget {
                           ),
                           Container(
                               margin: const EdgeInsets.symmetric(horizontal: 10),
-                              child: const Text(
-                                "7",
-                                style: TextStyle(fontSize: 17),
+                              child: Text(
+                                "$value",
+                                style: const TextStyle(fontSize: 17),
                               )),
                               const SizedBox(
                                 height: 10,
@@ -110,7 +161,9 @@ class cartlist extends StatelessWidget {
                                       blurRadius: 5),
                                 ]),
                             child: IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                valueDecreement();
+                              },
                               icon: const Icon(CupertinoIcons.minus, size: 20),
                             ),
                           ),
