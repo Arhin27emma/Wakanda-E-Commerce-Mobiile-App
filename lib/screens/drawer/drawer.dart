@@ -69,7 +69,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    _userProfile?.name ?? 'User Name',
+                    _userProfile?.name ?? 'Your Name',
                     style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
