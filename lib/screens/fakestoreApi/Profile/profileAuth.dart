@@ -21,10 +21,12 @@ class AuthService {
   }
 
   Future<String> uploadProfile(XFile image) async {
+      String userEmail = _auth.currentUser!.email!;
+
     String uniqueFilename = DateTime.now().millisecondsSinceEpoch.toString();
 
     Reference reference = FirebaseStorage.instance.ref();
-    Reference referenceDirImages = reference.child('images');
+    Reference referenceDirImages = reference.child('images').child(userEmail);
 
     Reference uploadProfileToReference = referenceDirImages.child(uniqueFilename);
 
