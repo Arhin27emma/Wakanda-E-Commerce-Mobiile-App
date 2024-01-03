@@ -108,8 +108,6 @@ class _ProfileState extends State<Profile> {
                       DefaultButton(
                         text: 'Update',
                         press: () async {
-                        // Get the current user
-                        var user = _authService.getCurrentUser();
 
                         String profileImageUrl = '';
 
@@ -120,7 +118,6 @@ class _ProfileState extends State<Profile> {
             
                         // Update user data in Firestore
                         await _authService.updateUserData(
-                          user!.uid,
                           _nameController.text,
                           _phoneController.text,
                           _addressController.text,

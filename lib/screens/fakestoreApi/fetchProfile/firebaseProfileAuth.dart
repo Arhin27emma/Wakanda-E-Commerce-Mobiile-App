@@ -11,6 +11,7 @@ class UserProfile {
     required this.profileImage,
     required this.location,
     required this.email,
+    required phone,
   });
 
   // Factory method to create UserProfile from a Firestore document
@@ -21,6 +22,7 @@ class UserProfile {
       profileImage: data['image'] ?? '',
       location: data['address'] ?? '',
       email: data['email'] ?? '',
+      phone: data['phone'] ?? '',
     );
   }
 }

@@ -44,12 +44,12 @@ class AuthService {
   }  
 
 
-  Future<void> updateUserData(String userId, String name, String phone, String address, String imageUrl) async {
+  Future<void> updateUserData(String name, String phone, String address, String imageUrl) async {
     try {
-      await _firestore.collection('ProfileInfo').doc(_auth.currentUser!.email).collection("profile").doc(userId).set({
-        'name': name,
-        'phone': phone,
-        'address': address,
+      await _firestore.collection('ProfileInfo').doc(_auth.currentUser!.email).set({
+        'name':name,
+        'phone':phone,
+        'address':address,
         'image':imageUrl,
         
       });
@@ -78,12 +78,4 @@ class AuthService {
     }
   }
 
-  Future<void> updateUsername(String username, String userId) async {
-    try {
-      await _firestore.collection("profile").doc(userId).update({'name': username});
-    } catch (e) {
-      showToast(message: 'Username update is unsuccessful');
-      print('Error updating username: $e');
-    }
-  }
 }
