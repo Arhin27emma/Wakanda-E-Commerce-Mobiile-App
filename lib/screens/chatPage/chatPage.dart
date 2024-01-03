@@ -40,7 +40,7 @@ class _ChatPageState extends State<ChatPage> {
                         children: [
                           Text("Messages", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),),
                           SizedBox(width: 40,),
-                          Text("Online", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
+                          Text("Users", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
                           SizedBox(width: 40,),
                           Text("Status", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
                           SizedBox(width: 40,),
