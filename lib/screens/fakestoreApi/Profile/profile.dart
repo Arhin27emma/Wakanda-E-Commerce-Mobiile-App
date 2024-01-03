@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:app/screens/fakestoreApi/Profile/profileAuth.dart';
 import 'package:flutter/material.dart';
 import 'package:app/components/button.dart';
+import 'package:image_picker/image_picker.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -15,11 +18,13 @@ class _ProfileState extends State<Profile> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+//  final _passwordController = TextEditingController();
   final _phoneController = TextEditingController();
   final _addressController = TextEditingController();
 
   final AuthService _authService = AuthService(); // Initialize AuthService
+
+  XFile? _selectedImage;
 
 
   @override
@@ -38,8 +43,21 @@ class _ProfileState extends State<Profile> {
                 CircleAvatar(
                   radius: 60,
                   backgroundColor: const Color.fromARGB(255, 211, 202, 242),
-                  child: Image.asset("assets/images/shirt.png"),
+                  child: GestureDetector(
+                    onTap: () async {
+                      _selectedImage = await _authService.pickProfileImage();
+                      if (_selectedImage != null) {
+                        setState(() {
+                          _selectedImage = _selectedImage;
+                        });
+                      }
+                    },
+                    child: _selectedImage != null
+                        ? Image.file(File(_selectedImage!.path), width: double.infinity, height: double.infinity, fit: BoxFit.cover)
+                        : const Icon(Icons.camera_alt_outlined, size: 20),
+                  ),
                 ),
+                
                 
                 const SizedBox(height: 30),
                 Form(
@@ -64,16 +82,6 @@ class _ProfileState extends State<Profile> {
                             hintText: "Enter your email address",
                             //floatingLabelBehavior: FloatingLabelBehavior.always,
                             suffixIcon: Icon(Icons.email_outlined)),
-                      ),
-                      const SizedBox(height: 30,),
-                      TextFormField(
-                        controller: _passwordController,
-                        keyboardType: TextInputType.visiblePassword,
-                        decoration: const InputDecoration(
-                            labelText: "Password",
-                            hintText: "Enter your password",
-                            //floatingLabelBehavior: FloatingLabelBehavior.always,
-                            suffixIcon: Icon(Icons.lock_outline)),
                       ),
                       const SizedBox(height: 30,),
                       TextFormField(
@@ -102,16 +110,24 @@ class _ProfileState extends State<Profile> {
                         press: () async {
                         // Get the current user
                         var user = _authService.getCurrentUser();
+
+                        String profileImageUrl = '';
+
+                        // If an image is selected, upload it and get the download URL
+                        if (_selectedImage != null) {
+                          profileImageUrl = await _authService.uploadProfile(_selectedImage!);
+                        }
             
                         // Update user data in Firestore
                         await _authService.updateUserData(
-                        user!.uid,
-                        _nameController.text,
-                        _phoneController.text,
-                        _addressController.text,);
-            
+                          user!.uid,
+                          _nameController.text,
+                          _phoneController.text,
+                          _addressController.text,
+                          profileImageUrl,
+                      );
+                              
                         await _authService.updateEmail(_emailController.text);
-                        await _authService.updatePassword(_passwordController.text);
                         _formKey.currentState!.reset();
                         }
                     ),
