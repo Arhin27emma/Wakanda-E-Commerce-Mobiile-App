@@ -3,6 +3,8 @@ import 'package:app/global/common/toast.dart';
 import 'package:app/screens/chatPage/chatPage.dart';
 import 'package:app/screens/fakestoreApi/HelpCenter.dart';
 import 'package:app/screens/fakestoreApi/_cartpage.dart';
+import 'package:app/screens/fakestoreApi/fetchProfile/firebaseProfileAuth.dart';
+import 'package:app/screens/fakestoreApi/fetchProfile/profileService.dart';
 import 'package:app/screens/fakestoreApi/paymentPage.dart';
 import 'package:app/screens/fakestoreApi/transHistory/transactionScreen.dart';
 import 'package:app/screens/sign_in/sign_in_screen.dart';
@@ -11,9 +13,36 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:app/screens/fakestoreApi/Profile/profile.dart';
 
-class DrawerScreen extends StatelessWidget {
+class DrawerScreen extends StatefulWidget {
   const DrawerScreen({super.key});
   static String routeName = "drawer.dart";
+
+  @override
+  State<DrawerScreen> createState() => _DrawerScreenState();
+}
+
+class _DrawerScreenState extends State<DrawerScreen> {
+
+  UserProfile? _userProfile; 
+  final ProfileService _profileService = ProfileService();
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserProfile();
+  }
+
+  Future<void> _fetchUserProfile() async {
+    try {
+      UserProfile? userProfile = await _profileService.fetchUserProfile();
+      setState(() {
+        _userProfile = userProfile;
+      });
+    } catch (e) {
+      print('Error fetching user profile: $e');
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -29,27 +58,33 @@ class DrawerScreen extends StatelessWidget {
               CircleAvatar(
                 radius: 40,
                 backgroundColor: const Color.fromARGB(255, 211, 202, 242),
-                child: Image.asset("assets/images/shirt.png"),
+                child: _userProfile != null
+                ? Image.network(_userProfile!.profileImage) // Use the profile image URL
+                : Image.asset("assets/images/shirt.png"),
               ),
               const SizedBox(
                 width: 10,
               ),
-              const Column(
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Emmanuel Arhinful",
-                    style: TextStyle(
+                    _userProfile?.name ?? 'User Name',
+                    style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.indigo),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 7,
                   ),
-                  Text(
-                    "arhinfulemmanuel294gmail.com",
-                    style: TextStyle(fontSize: 15, color: Colors.indigo),
+                  Row(
+                    children: [
+                      const Icon(Icons.location_on, color: Colors.red,),
+                      Text(
+                      _userProfile!.location,
+                      style: const TextStyle(fontSize: 15, color: Colors.indigo),
+                    ),]
                   ),
                 ],
               )
