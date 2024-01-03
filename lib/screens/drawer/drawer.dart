@@ -59,7 +59,9 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 radius: 40,
                 backgroundColor: const Color.fromARGB(255, 211, 202, 242),
                 child: _userProfile != null
-                ? Image.network(_userProfile!.profileImage) // Use the profile image URL
+                ? ClipRRect(
+                  borderRadius: BorderRadius.circular(40),
+                  child: Image.network(_userProfile!.profileImage, width: double.infinity, height: double.infinity, fit: BoxFit.cover,)) // Use the profile image URL
                 : Image.asset("assets/images/shirt.png"),
               ),
               const SizedBox(

@@ -53,7 +53,9 @@ class _ProfileState extends State<Profile> {
                       }
                     },
                     child: _selectedImage != null
-                        ? Image.file(File(_selectedImage!.path), width: double.infinity, height: double.infinity, fit: BoxFit.cover)
+                        ? ClipRRect(
+                          borderRadius: BorderRadius.circular(60),
+                          child: Image.file(File(_selectedImage!.path), width: double.infinity, height: double.infinity, fit: BoxFit.cover))
                         : const Icon(Icons.camera_alt_outlined, size: 20),
                   ),
                 ),
