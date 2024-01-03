@@ -82,7 +82,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     children: [
                       const Icon(Icons.location_on, color: Colors.red,),
                       Text(
-                      _userProfile!.location,
+                      _userProfile?.location ?? 'Your Location',
                       style: const TextStyle(fontSize: 15, color: Colors.indigo),
                     ),]
                   ),
