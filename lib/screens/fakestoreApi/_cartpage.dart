@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:app/bottomNav.dart';
 import 'package:app/screens/fakestoreApi/_cartList.dart';
 import 'package:app/screens/fakestoreApi/paymentPage.dart';
 import 'package:app/screens/splashScreen.dart';
@@ -24,6 +25,10 @@ class _CartPageState extends State<CartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: ()=> Navigator.pushNamed(context, BottomNavigation.routeName,),
+          icon: const Icon(Icons.arrow_back_ios_new)
+        ),
         title: const Text(
           "Cart",
           style: TextStyle(

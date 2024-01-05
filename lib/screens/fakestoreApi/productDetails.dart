@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:app/screens/fakestoreApi/_cartpage.dart';
 
 class productDetails extends StatefulWidget {
   const productDetails({super.key, required this.product});
@@ -24,6 +25,8 @@ class _productDetailsState extends State<productDetails> {
   Map<String, dynamic>? productData;
   int value = 1;
   double totalprice = 0.0;
+
+  bool addToCartPressed = false;
 
 
   
@@ -167,6 +170,14 @@ class _productDetailsState extends State<productDetails> {
                             ),
                             Row(
                               children: [
+                                CircleAvatar(
+                                  radius:20,
+                                  backgroundColor: Colors.white,
+                                  child: IconButton(
+                                    onPressed: () => Navigator.pushNamed(context, CartPage.routeName),
+                                    icon: const Icon(Icons.shopping_cart, color: Colors.red, size: 25)),
+                                ),
+                                const SizedBox(width: 20,),
                                 Container(
                                   width: 30,
                                   height: 35,
